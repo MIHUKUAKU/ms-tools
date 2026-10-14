@@ -41,6 +41,8 @@
 
 ## 三步开始
 
+想先看实际能怎么用？从这两个例子入手：[和平机一键开关、珍珠装置远程回家](docs/使用示例.md)。
+
 1. 在 [Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest) 下载 `MS-Tools-1.7.3-Windows-Installer.zip`，退出游戏并完整解压。
 2. 双击 `installer/Install.cmd`，选 PCL 的 Fabric 版本文件夹、安装模式和存档。**前置自动下载，旧文件自动备份，预设和交易链保留。**
 3. 重进存档，输入 `/ms`。刷交易筛选的入口在村民交易窗口。
