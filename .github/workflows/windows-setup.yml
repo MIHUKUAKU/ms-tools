@@ -15,6 +15,7 @@ jobs:
         with:
           python-version: '3.13'
       - name: Download the public v1.7.4 setup and verify its hash
+        id: package
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path qa -Force | Out-Null
@@ -25,6 +26,8 @@ jobs:
       - name: Check package scripts with Windows PowerShell 5.1
         shell: powershell
         run: |
+          $PSVersionTable.PSVersion.ToString()
+          Get-Command Get-FileHash | Format-List Name,Source,Version
           & tools/test_installer.ps1 -Root $env:MS_QA_PACKAGE
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Exercise both game versions on Windows PowerShell 5.1
@@ -33,13 +36,16 @@ jobs:
           python tools/test_installer_integration.py powershell.exe --package 'qa/玩家下载 Setup' --network 2>&1 | Tee-Object qa/windows-powershell-5.1.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Exercise both game versions on PowerShell 7
+        if: ${{ !cancelled() && steps.package.outcome == 'success' }}
         shell: pwsh
         run: |
           python tools/test_installer_integration.py pwsh.exe --package 'qa/玩家下载 Setup' --network 2>&1 | Tee-Object qa/powershell-7.log
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Install native UI test dependencies
+        if: ${{ !cancelled() && steps.package.outcome == 'success' }}
         run: python -m pip install pywinauto psutil Pillow
       - name: Run all three actual CMD entry points and Windows dialogs
+        if: ${{ !cancelled() && steps.package.outcome == 'success' }}
         shell: pwsh
         run: |
           python tools/test_windows_setup_ui.py 'qa/玩家下载 Setup' 'qa/native-ui' 2>&1 | Tee-Object qa/native-ui.log
