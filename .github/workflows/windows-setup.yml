@@ -1,6 +1,11 @@
 name: Verify published Windows setup
 on:
   workflow_dispatch:
+    inputs:
+      candidate:
+        description: Test repository installer over the verified release payload
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -23,6 +28,10 @@ jobs:
           if ((Get-FileHash qa/setup.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'a011f3dbf069016779130fcca6b34a113b8a5854236b91ce30f2513672a64d5d') { throw 'Published setup hash mismatch' }
           python -c "import zipfile; zipfile.ZipFile('qa/setup.zip').extractall('qa/玩家下载 Setup')"
           "MS_QA_PACKAGE=$((Resolve-Path 'qa/玩家下载 Setup').Path)" | Out-File $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Apply candidate installer to the verified release payload
+        if: ${{ inputs.candidate }}
+        shell: pwsh
+        run: Copy-Item installer/Install.ps1 "$env:MS_QA_PACKAGE/installer/Install.ps1" -Force
       - name: Check package scripts with Windows PowerShell 5.1
         shell: powershell
         run: |
@@ -46,6 +55,7 @@ jobs:
         run: python -m pip install pywinauto psutil Pillow
       - name: Run all three actual CMD entry points and Windows dialogs
         if: ${{ !cancelled() && steps.package.outcome == 'success' }}
+        timeout-minutes: 5
         shell: pwsh
         run: |
           python tools/test_windows_setup_ui.py 'qa/玩家下载 Setup' 'qa/native-ui' 2>&1 | Tee-Object qa/native-ui.log
