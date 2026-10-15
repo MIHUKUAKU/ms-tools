@@ -19,13 +19,13 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
-      - name: Download the public v1.7.4 setup and verify its hash
+      - name: Download the public v1.7.5 setup and verify its hash
         id: package
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path qa -Force | Out-Null
-          Invoke-WebRequest 'https://github.com/MIHUKUAKU/ms-tools/releases/download/v1.7.4/MS-Tools-1.7.4-Windows-Setup.zip' -OutFile qa/setup.zip
-          if ((Get-FileHash qa/setup.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'a011f3dbf069016779130fcca6b34a113b8a5854236b91ce30f2513672a64d5d') { throw 'Published setup hash mismatch' }
+          Invoke-WebRequest 'https://github.com/MIHUKUAKU/ms-tools/releases/download/v1.7.5/MS-Tools-1.7.5-Windows-Setup.zip' -OutFile qa/setup.zip
+          if ((Get-FileHash qa/setup.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne '3534abf7879f67a9ecacf4edc83f91ee05d1c6f93409bf7f82f86e2006dcdce6') { throw 'Published setup hash mismatch' }
           python -c "import zipfile; zipfile.ZipFile('qa/setup.zip').extractall('qa/玩家下载 Setup')"
           "MS_QA_PACKAGE=$((Resolve-Path 'qa/玩家下载 Setup').Path)" | Out-File $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Apply candidate installer to the verified release payload
