@@ -1,5 +1,7 @@
 # MS Tools · 让假人为你的生存档打工
 
+[简体中文](README.md) · [English](README.en.md)
+
 **开机器、搬物资、跑交易链。重复操作交给假人，你继续建造。**
 
 ![Fabric](https://img.shields.io/badge/Loader-Fabric-dbba79)
@@ -81,6 +83,8 @@
 ## 三步开始
 
 想先看实际能怎么用？从这两个例子入手：[和平机一键开关、珍珠装置远程回家](docs/使用示例.md)。
+
+下面三步适用于 **Windows / PCL**。其它启动器或系统请按[手动安装说明](docs/安装说明.md)选择所需模组；macOS 游戏运行尚未实测。
 
 1. 在 [Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest) 下载 `MS-Tools-1.7.3-Windows-Installer.zip`，退出游戏并完整解压。
 2. 双击 `installer/Install.cmd`，选 PCL 的 Fabric 版本文件夹、安装模式和存档。**前置自动下载，旧文件自动备份，预设和交易链保留。**
