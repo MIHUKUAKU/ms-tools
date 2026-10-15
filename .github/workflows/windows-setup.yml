@@ -1,0 +1,56 @@
+name: Verify published Windows setup
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  published-installer:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Download the public v1.7.4 setup and verify its hash
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path qa -Force | Out-Null
+          Invoke-WebRequest 'https://github.com/MIHUKUAKU/ms-tools/releases/download/v1.7.4/MS-Tools-1.7.4-Windows-Setup.zip' -OutFile qa/setup.zip
+          if ((Get-FileHash qa/setup.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'a011f3dbf069016779130fcca6b34a113b8a5854236b91ce30f2513672a64d5d') { throw 'Published setup hash mismatch' }
+          python -c "import zipfile; zipfile.ZipFile('qa/setup.zip').extractall('qa/玩家下载 Setup')"
+      - name: Check package scripts with Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          & tools/test_installer.ps1 -Root 'qa/玩家下载 Setup'
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Exercise both game versions on Windows PowerShell 5.1
+        shell: pwsh
+        run: |
+          python tools/test_installer_integration.py powershell.exe --package 'qa/玩家下载 Setup' --network 2>&1 | Tee-Object qa/windows-powershell-5.1.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Exercise both game versions on PowerShell 7
+        shell: pwsh
+        run: |
+          python tools/test_installer_integration.py pwsh.exe --package 'qa/玩家下载 Setup' --network 2>&1 | Tee-Object qa/powershell-7.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Install native UI test dependencies
+        run: python -m pip install pywinauto psutil Pillow
+      - name: Run all three actual CMD entry points and Windows dialogs
+        shell: pwsh
+        run: |
+          python tools/test_windows_setup_ui.py 'qa/玩家下载 Setup' 'qa/native-ui' 2>&1 | Tee-Object qa/native-ui.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Preserve test results and native dialog screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-setup-results
+          path: |
+            qa/*.log
+            qa/native-ui/*.png
+            qa/native-ui/*.txt
+            qa/native-ui/*.log
+            qa/native-ui/*.json
