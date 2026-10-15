@@ -21,10 +21,11 @@ jobs:
           Invoke-WebRequest 'https://github.com/MIHUKUAKU/ms-tools/releases/download/v1.7.4/MS-Tools-1.7.4-Windows-Setup.zip' -OutFile qa/setup.zip
           if ((Get-FileHash qa/setup.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'a011f3dbf069016779130fcca6b34a113b8a5854236b91ce30f2513672a64d5d') { throw 'Published setup hash mismatch' }
           python -c "import zipfile; zipfile.ZipFile('qa/setup.zip').extractall('qa/玩家下载 Setup')"
+          "MS_QA_PACKAGE=$((Resolve-Path 'qa/玩家下载 Setup').Path)" | Out-File $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Check package scripts with Windows PowerShell 5.1
         shell: powershell
         run: |
-          & tools/test_installer.ps1 -Root 'qa/玩家下载 Setup'
+          & tools/test_installer.ps1 -Root $env:MS_QA_PACKAGE
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Exercise both game versions on Windows PowerShell 5.1
         shell: pwsh
