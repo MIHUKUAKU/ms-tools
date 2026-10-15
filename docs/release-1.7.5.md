@@ -12,6 +12,8 @@
 
 Windows Server 2025 测试机已通过：PowerShell 5.1 的 22 项判定检查、5.1 和 PowerShell 7 各 16 个安装场景，以及三个实际 CMD 入口的文件夹选择、确认、安装和存档权限配置。使用一次性测试存档标记，没有启动 Minecraft 客户端；不是全部游戏行为或所有 Windows 桌面环境的保证。
 
+[正式发布包复验记录](https://github.com/MIHUKUAKU/ms-tools/actions/runs/38746117404)：重新下载 v1.7.5 正式 ZIP，直接使用包内文件运行全部安装检查，通过后未替换安装脚本。
+
 新版本优先在 GitHub 发布，论坛可能延后 1 天至 1 周同步。安装或使用遇到问题，欢迎留言或[提 Issue](https://github.com/MIHUKUAKU/ms-tools/issues)。
 
 ## English
@@ -21,5 +23,7 @@ Fixes one-click setup stopping during dependency verification on Windows PowerSh
 Extract the Windows setup ZIP, run `开始安装.cmd`, and select your save. A working Fabric Minecraft 26.2/26.3 instance and Java 25 are required; exit the game first. Minecraft, Java and Fabric Loader must already be installed. Existing suitable dependencies are reused. Gameplay JAR versions are unchanged.
 
 On Windows Server 2025, PowerShell 5.1 passed 22 detection checks; both 5.1 and PowerShell 7 passed 16 installation scenarios each. All three actual CMD entry points passed native folder-picker, confirmation and installation checks using disposable save fixtures. Minecraft itself was not launched in this installer test.
+
+[Public release verification](https://github.com/MIHUKUAKU/ms-tools/actions/runs/38746117404) downloaded the published v1.7.5 ZIP and tested its files without replacing the installer.
 
 New versions appear on GitHub first; forum updates may follow 1–7 days later.

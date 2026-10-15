@@ -18,6 +18,8 @@ The scripts are also available in the repository's [scripts directory](../script
 
 ## Windows/PCL installer
 
+Use v1.7.5 or later: it fixes setup stopping at `Get-FileHash` under Windows PowerShell 5.1. [Verification of the published ZIP](https://github.com/MIHUKUAKU/ms-tools/actions/runs/38746117404) passed both PowerShell versions and all three native CMD entry points on Windows Server 2025 using disposable save fixtures; Minecraft itself was not launched in this installer test.
+
 1. Install and launch a supported Fabric instance once in PCL, then exit the game. Install Java and Fabric Loader through your launcher first.
 2. Download and fully extract `MS-Tools-1.7.5-Windows-Setup.zip`. Run root-level `开始安装.cmd` for the bot tools, or `安装含交易筛选.cmd` for both parts.
 3. Choose the save folder containing `level.dat`. The installer detects its Fabric instance and displays a plan. Shared, non-isolated instances require selecting the Fabric version JSON as well.
