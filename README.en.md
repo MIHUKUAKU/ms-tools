@@ -38,7 +38,7 @@ Save the bot's position and rotation, then call its numbered preset. MS makes th
 <details>
 <summary>Trigger your own ender pearl stasis chamber</summary>
 
-Leave your own pearl in a working chamber first. A saved bot preset can trigger the mechanism while you are away. This depends on the pearl and chamber, and is not a direct player teleport. Cross-dimensional returns have not been separately verified.
+Leave your own pearl in a working chamber first. A saved bot preset can trigger the mechanism while you are away. This depends on the pearl and chamber, and is not a direct player teleport. Cross-dimensional returns are supported; the pearl loads its own chunk.
 
 ![Calling a bot preset to trigger a prepared ender pearl stasis chamber](docs/home.gif)
 
@@ -106,3 +106,20 @@ I built this around my own survival-world needs with Codex assisting with develo
 If these tools save you repetitive work, a Star is welcome. Downloads and use are free, with no Star requirement.
 
 The author originally used the tools on26.2 without noticeable problems. A separate26.2 isolation check covered client initialization; neither observation establishes compatibility with every dependency version.
+
+## Full feature list
+
+- Pick up items from a container or sweep successive container columns; prioritize carried shulker boxes.
+- Deliver collected items to yourself or a specified online player, including delivery across dimensions.
+- Collect and organize by target item: use a shulker-box contents list for multiple targets, prefer same-item boxes, fill matching source boxes where possible, and carry whole boxes.
+- Deposit carried items at containers or saved storage points; craft empty shulker boxes and transport the results.
+- Buy existing villager offers and follow saved trade chains, using emeralds, emerald blocks and currency in carried shulker boxes.
+- Keep trading during working hours, wait for restocks, log off after the daily restock purchases complete, and return the next day. Re-enable the keep task after a world/server restart.
+- Trigger prepared machine switches; stay online, continuously attack, or use the held item.
+- Trigger a prepared pearl stasis chamber for cross-dimensional returns. Your pearl loads its own chunk; leave a valid pearl in the chamber first.
+- Create bots, inspect status, move, look, turn, stop, drop items or clear inventory; optional phantom-spawning and special-block breaking controls.
+- Separate singleplayer Trade Target: filter item/enchantment/potion effect, price and trade positions, stopping on a match.
+
+Movement uses prepared flat routes. Full commands and effects: [command reference](docs/全部命令.md).
+
+For existing installations, run `启用已有存档.cmd` to select another save and enable bot permissions and script autoload without changing any mod JARs. The normal setup already enables both settings.
