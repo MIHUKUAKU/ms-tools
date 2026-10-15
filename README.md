@@ -23,6 +23,8 @@
 
 v1.7.5 修复 Windows PowerShell 5.1 下的文件校验中断。Windows 测试机已验证三个实际 CMD 入口和存档权限配置；需先有可正常启动的 Java25／Fabric 游戏实例。
 
+[正式安装包 Windows 验证已通过](https://github.com/MIHUKUAKU/ms-tools/actions/runs/38746117404)：重新下载公开 ZIP 后原样测试，5.1 和 PowerShell 7 各 16 个安装场景通过；本轮未启动 Minecraft 客户端。
+
 **新版本优先在 GitHub 发布。** 不常用论坛可能延后1天至1周同步，请以[GitHub最新版本](https://github.com/MIHUKUAKU/ms-tools/releases/latest)为准。有安装或使用问题，欢迎留言或[提交Issue](https://github.com/MIHUKUAKU/ms-tools/issues)。
 
 ### 已装模组，只为另一个存档开启权限

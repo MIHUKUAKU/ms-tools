@@ -18,6 +18,8 @@ I started this because I wanted a short command to operate my mob switch without
 
 v1.7.5 fixes dependency verification stopping under Windows PowerShell 5.1. All three CMD entry points and save-permission setup passed on a Windows Server 2025 test machine using disposable save fixtures; this did not include launching Minecraft.
 
+[Verification of the public setup ZIP passed](https://github.com/MIHUKUAKU/ms-tools/actions/runs/38746117404): the published archive was downloaded again and tested without replacing its installer. PowerShell 5.1 and PowerShell 7 each passed 16 installation scenarios.
+
 Updates appear first on [GitHub Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest). Less frequently used forum threads may follow1–7days later. Questions and bug reports are welcome.
 
 ## Two independent parts
@@ -97,7 +99,7 @@ For a first MS preset, replace these example coordinates with your own:
 - Trade Target currently works in **single-player only**. Use an untraded villager bound to a workstation. Empty the trade input slots and cursor, and wait for advanced trade previews to load before selecting slots.
 - `/ms` access depends on the documented Carpet/Scarpet permissions. On a server, follow the administrator's rules and permission configuration.
 - Prepare safe routes away from obstacles, drops and lava. `clear` immediately empties a bot's inventory. The optional special-block breaking feature directly removes blocks when enabled.
-- Both supported Minecraft versions compiled successfully. 26.3 has isolated runtime and actual trade-filter testing; 26.2 is confirmed through client initialization beyond compilation. Coverage is incomplete, and macOS gameplay has not been tested. See the [test report (Chinese)](docs/测试报告.md).
+- Both supported Minecraft versions compiled successfully. 26.3 has isolated runtime and actual trade-filter testing. The author originally used these tools on 26.2 without noticeable problems; a separate 26.2 isolation check covered client initialization. Coverage is incomplete, and macOS gameplay has not been tested. See the [test report (Chinese)](docs/测试报告.md).
 
 ## Source and feedback
 
