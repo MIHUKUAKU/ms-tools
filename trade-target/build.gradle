@@ -1,8 +1,25 @@
 version = '1.4.2'
 base { archivesName = 'trade-target-331' }
+// Use the exact official file: Modrinth's Maven facade has intermittently
+// returned missing artifacts for otherwise downloadable version IDs.
+def setupDependencies = new groovy.json.JsonSlurper().parse(rootProject.file('installer/dependencies.json'))
+def cyclingFile = setupDependencies.games[rootProject.minecraft_version].find { it.id == 'trade_cycling' }
+repositories {
+    exclusiveContent {
+        forRepository {
+            ivy {
+                name = 'TradeCyclingOfficialFile'
+                url = 'https://cdn.modrinth.com/data/qpPoAL6m/versions'
+                patternLayout { artifact "[revision]/${cyclingFile.name}" }
+                metadataSources { artifact() }
+            }
+        }
+        filter { includeModule('official.modrinth', 'trade-cycling') }
+    }
+}
 dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    implementation "maven.modrinth:trade-cycling:${rootProject.trade_cycling_version}"
+    implementation "official.modrinth:trade-cycling:${rootProject.trade_cycling_version}@jar"
     implementation "maven.modrinth:visible-traders:${rootProject.visible_traders_version}"
 }
 tasks.register('logicTest', JavaExec) {
