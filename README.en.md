@@ -6,6 +6,8 @@
 
 For **Minecraft Java Edition 26.2 / 26.3, Fabric, Java 25 and Fabric Loader ≥ 0.19.3**. Other Minecraft versions have not been verified.
 
+The current release supports Fabric only. If a Forge port is completed and tested, it will be clearly listed and published on GitHub.
+
 [Download](https://github.com/MIHUKUAKU/ms-tools/releases/latest) · [Installation](docs/installation.en.md) · [Command reference (Chinese)](docs/全部命令.md) · [Report an issue](https://github.com/MIHUKUAKU/ms-tools/issues)
 
 I started this because I wanted a short command to operate my mob switch without retyping a bot's name, position and rotation. It grew into helpers for moving supplies, packing shulker boxes, crafting and villager trading.

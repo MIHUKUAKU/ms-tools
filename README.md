@@ -141,6 +141,8 @@
 
 目前适配 **Fabric 26.2 / 26.3**，需要 Java 25、Fabric Loader >= 0.19.3。
 
+当前发布仅支持 Fabric；后续如完成 Forge 适配和测试，会在 GitHub 明确标注并提供对应版本。
+
 | 功能 | 前置 |
 | --- | --- |
 | MS | 对应游戏版本的 Carpet，以及四个 Scarpet 脚本和 `mstrade` |
