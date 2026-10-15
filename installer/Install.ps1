@@ -106,7 +106,7 @@ $packageRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $stageRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('ms-tools-stage-' + [guid]::NewGuid().ToString('N'))
 $stageCreated = $false
 try {
-    Write-Host '更智能的假人 | 安装体验更新 1.7.4'
+    Write-Host '更智能的假人 | 安装体验更新 1.7.5'
     Write-Host '请完全退出游戏；存档不会被升级版本。需要已能正常启动的26.2/26.3 Fabric实例和Java25。'
     if ($ChooseWorld -and [string]::IsNullOrWhiteSpace($WorldPath)) { $WorldPath = Choose-WorldFolder }
     if (-not [string]::IsNullOrWhiteSpace($WorldPath)) {
