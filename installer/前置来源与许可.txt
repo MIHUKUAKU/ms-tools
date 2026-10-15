@@ -1,0 +1,30 @@
+更智能的假人 / MS Tools 1.7.4：前置来源
+
+安装包同时准备Minecraft 26.2与26.3对应的前置，安装时只使用匹配所选实例的文件。
+已安装且通过模组ID、最低版本和游戏/Loader版本要求检查的前置会保留，不重复安装。
+重复或要求不符的相关文件会在确认后备份替换。它不是整个整合包的完整依赖求解器，
+也不保证所有前置版本和其他模组组合均经过实机验证。
+
+Carpet：gnembon及贡献者，MIT
+https://modrinth.com/mod/carpet
+https://github.com/gnembon/fabric-carpet
+未修改原始JAR，原许可证保留在JAR内。
+
+Fabric API：Fabric项目及贡献者，Apache-2.0
+https://modrinth.com/mod/fabric-api
+https://github.com/FabricMC/fabric
+未修改原始JAR，原许可证及相关声明保留在JAR内。
+
+Visible Traders：Ramixin及贡献者，MIT
+https://modrinth.com/mod/visible-traders
+https://github.com/Ramixin/VisibleTraders
+未修改原始JAR；原始许可证另附installer/licenses/Visible-Traders-LICENSE.txt。
+
+Trade Cycling：henkelmax，All Rights Reserved
+https://modrinth.com/mod/trade-cycling
+https://github.com/henkelmax/trade-cycling
+此安装包不分发其JAR。缺失时安装器按固定的官方版本URL下载，并验证官方SHA-512与模组ID。
+已安装且符合要求时直接复用，不联网下载它。
+
+准确版本、官方下载地址、许可证标识与SHA-512见installer/dependencies.json。
+免费使用本工具，无需Star即可下载；支持项目可以自愿在GitHub点Star。
