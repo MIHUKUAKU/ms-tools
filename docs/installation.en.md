@@ -12,20 +12,26 @@ MS and Trade Target are independent. Install only the part you need, or both. Ex
 | --- | --- |
 | MS bot commands | `mstrade-1.7.3.jar`, version-matched [Carpet](https://modrinth.com/mod/carpet), and `ms.sc`, `fetch.sc`, `put.sc`, `throw.sc` |
 | Trade Target only | `trade-target-331-1.4.2.jar`, version-matched [Fabric API](https://modrinth.com/mod/fabric-api), [Trade Cycling](https://modrinth.com/mod/trade-cycling) ≥ 1.0.21 and [Visible Traders](https://modrinth.com/mod/visible-traders) ≥ 2.5.0 |
-| Windows/PCL installer | `MS-Tools-1.7.3-Windows-Installer.zip`; contains both parts and the scripts, with a choice of installation mode |
+| Windows/PCL installer | `MS-Tools-1.7.4-Windows-Setup.zip`; contains both parts and the scripts, with a choice of installation mode |
 
 The scripts are also available in the repository's [scripts directory](../scripts). A source ZIP is a development project, not a ready-to-install mod.
 
 ## Windows/PCL installer
 
 1. Install and launch a supported Fabric instance once in PCL, then exit the game. Install Java and Fabric Loader through your launcher first.
-2. Download and fully extract `MS-Tools-1.7.3-Windows-Installer.zip`. Run `installer/Install.cmd` from the extracted folder.
-3. Select the specific Fabric **version folder** containing that instance, not its `mods`, `saves` or general `.minecraft` folder. Choose `MS`, `Trade` or `Both`. For MS, select the target world containing `level.dat`.
-4. Review the plan and confirm installation. Start that instance again. MS commands begin with `/ms`; Trade Target's controls appear in the villager trading screen.
+2. Download and fully extract `MS-Tools-1.7.4-Windows-Setup.zip`. Run root-level `开始安装.cmd` for the bot tools, or `安装含交易筛选.cmd` for both parts.
+3. Choose the save folder containing `level.dat`. The installer detects its Fabric instance and displays a plan. Shared, non-isolated instances require selecting the Fabric version JSON as well.
+4. Confirm the game is closed and install. Restart that instance and enter the selected save; use `/ms`.
 
-The installer downloads third-party dependencies from Modrinth, checks their published SHA-512 hashes and Fabric mod IDs, and backs up replaced files under the instance's `.ms-tools-backup` directory. Those dependencies are separate projects. Network or verification failures stop installation before files are written to the instance.
+Existing dependency JARs are identified by Fabric mod ID and checked against the minimum version and their Minecraft/Loader requirements. Suitable files are reused. Missing or unsuitable files are supplied from bundled, unmodified Carpet/Fabric API/Visible Traders releases or, for Trade Cycling, its official download. Exact versions and SHA-512 values are recorded in `installer/dependencies.json`; attribution and licenses are included. Duplicate or replaced related files are backed up under `.ms-tools-backup`. Verification failures stop before modifying the instance. This is not a complete dependency solver for arbitrary modpacks, and does not guarantee every dependency combination is tested.
+
+Mod JARs are installed for the whole instance; scripts and rules are enabled for the selected save. Java/Fabric Loader must already be installed. The save's Minecraft version is not upgraded by this installer. The advanced `installer/Install.cmd` entry point and manual installation remain available.
 
 For MS it also merges `commandPlayer true` and `scriptsAutoload true` into the selected world's `carpet.conf`. Other rules, personal bot presets and trade-chain data are preserved. Keep the backup until you have confirmed the game works.
+
+## Enable another existing save
+
+If MS and Carpet are already installed, run root-level `启用已有存档.cmd` and select a save. This copies the four local scripts and enables `commandPlayer true` plus `scriptsAutoload true`, without downloading or replacing any mod JARs. The normal setup already includes this step.
 
 ## Manual installation
 
