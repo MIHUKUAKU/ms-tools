@@ -121,7 +121,7 @@
 
 ## 源码与反馈
 
-完整源码在 Release 附件的 `MS-Tools-1.7.3-Source.zip`，解压就是 Gradle 项目。想自己编译或改功能，见 [开发与兼容](docs/开发与兼容.md)。
+源码现在可以直接在仓库里查看：[MS 假人工具](ms-tools/src)、[独立刷交易筛选](trade-target/src)、[四个 Scarpet 脚本](scripts)、[Windows 安装器](installer)。根目录带 Gradle 构建文件和 Wrapper，想自己编译或改功能，见 [开发与兼容](docs/开发与兼容.md)。Release 附件里也保留了 `MS-Tools-1.7.3-Source.zip` 源码包。
 
 遇到问题可以开 [Issue](https://github.com/MIHUKUAKU/ms-tools/issues)，带上游戏版本、相关模组版本、执行的指令和报错片段就行，不需要上传整个存档。日志里若有账号信息，先删掉。
 
