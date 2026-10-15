@@ -1,4 +1,4 @@
-# MS Tools · Put your Carpet bots to work
+# Smarter Fake Players · MS Tools · Put your Carpet bots to work
 
 [简体中文](README.md) · English
 
@@ -9,6 +9,12 @@ For **Minecraft Java Edition 26.2 / 26.3, Fabric, Java 25 and Fabric Loader ≥ 
 [Download](https://github.com/MIHUKUAKU/ms-tools/releases/latest) · [Installation](docs/installation.en.md) · [Command reference (Chinese)](docs/全部命令.md) · [Report an issue](https://github.com/MIHUKUAKU/ms-tools/issues)
 
 I started this because I wanted a short command to operate my mob switch without retyping a bot's name, position and rotation. It grew into helpers for moving supplies, packing shulker boxes, crafting and villager trading.
+
+## Easier setup for your survival save
+
+[Download the Windows setup ZIP](https://github.com/MIHUKUAKU/ms-tools/releases/latest), extract it, and run `开始安装.cmd`. Select your save folder containing `level.dat`, review the plan, and install. The installer detects an existing Fabric26.2/26.3 instance, reuses suitable installed dependencies, fills in missing files, and enables the Carpet scripts for that save. Use `安装含交易筛选.cmd` to also install the separate, singleplayer-only Trade Target filter. Java25 and a working Fabric installation are required; exit Minecraft before installing. See [installation](docs/installation.en.md) and [third-party sources](installer/前置来源与许可.txt).
+
+Updates appear first on [GitHub Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest). Less frequently used forum threads may follow1–7days later. Questions and bug reports are welcome.
 
 ## Two independent parts
 
@@ -98,3 +104,5 @@ For bug reports, include your Minecraft and mod versions, the command or action,
 I built this around my own survival-world needs with Codex assisting with development and debugging. AI also helped organize the documentation.
 
 If these tools save you repetitive work, a Star is welcome. Downloads and use are free, with no Star requirement.
+
+The author originally used the tools on26.2 without noticeable problems. A separate26.2 isolation check covered client initialization; neither observation establishes compatibility with every dependency version.

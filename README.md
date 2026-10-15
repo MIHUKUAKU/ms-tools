@@ -1,4 +1,4 @@
-# MS Tools · 让假人为你的生存档打工
+# 更智能的假人（MS Tools）
 
 [简体中文](README.md) · [English](README.en.md)
 
@@ -12,6 +12,16 @@
 [下载与安装](https://github.com/MIHUKUAKU/ms-tools/releases/latest) · [全部命令](docs/全部命令.md) · [安装说明](docs/安装说明.md) · [测试记录](docs/测试报告.md) · [反馈问题](https://github.com/MIHUKUAKU/ms-tools/issues)
 
 我一开始只是想用一个短指令开关和平机，不想每次输入假人名字、坐标和朝向。后来干脆把搬东西、装潜影盒、合成和村民交易也接了进来，现在把自己这套生存工具整理出来分享。
+
+## 选择存档，准备开工
+
+[下载 Windows 安装包](https://github.com/MIHUKUAKU/ms-tools/releases/latest) → 解压 → 双击 `开始安装.cmd` → 选择自己的存档文件夹 → 确认安装。
+
+安装器识别26.2／26.3 Fabric实例，**先检测已有前置，符合要求就保留**；补齐缺失文件，安装工具和四脚本，自动配置所选生存存档。重新进入存档后输入 `/ms`。先在启动器装好Java25与Fabric，并正常启动过一次；安装前退出游戏。需要独立刷交易筛选时，运行 `安装含交易筛选.cmd`。
+
+前置随包提供或从官方来源获取，保留[原作者入口和许可证](installer/前置来源与许可.txt)。已有相关文件先备份；准确支持范围见[安装说明](docs/安装说明.md)和[测试记录](docs/测试报告.md)，不承诺所有前置组合兼容。
+
+**新版本优先在 GitHub 发布。** 不常用论坛可能延后1天至1周同步，请以[GitHub最新版本](https://github.com/MIHUKUAKU/ms-tools/releases/latest)为准。有安装或使用问题，欢迎留言或[提交Issue](https://github.com/MIHUKUAKU/ms-tools/issues)。
 
 ## 一套工具，两个独立模组
 
@@ -121,11 +131,11 @@
 - 自动移动适合提前整理好的平坦通路，不是通用寻路；避免障碍、悬崖和岩浆。
 - 刷交易筛选目前只支持**单人存档**。村民需要绑定工作站且还没进行过交易；交易输入格和鼠标持物须为空。先等高级预览加载，再选序号。
 - `clear` 是直接清空假人背包，不可撤销。特殊方块点破会直接移除方块，请谨慎开启。
-- 两个版本均已编译通过；26.3 做过隔离运行和实际刷交易测试，26.2 目前确认了客户端初始化。不是所有功能和边界条件都测过，详见 [测试记录](docs/测试报告.md)。其它 Minecraft 版本没有验证。
+- 两个版本均已编译通过；26.3 做过隔离运行和实际刷交易测试，作者最初在26.2实际使用时未遇到明显问题，另一次26.2隔离验证确认了客户端初始化。不是所有功能和边界条件都测过，详见 [测试记录](docs/测试报告.md)。其它 Minecraft 版本没有验证。
 
 ## 源码与反馈
 
-源码现在可以直接在仓库里查看：[MS 假人工具](ms-tools/src)、[独立刷交易筛选](trade-target/src)、[四个 Scarpet 脚本](scripts)、[Windows 安装器](installer)。根目录带 Gradle 构建文件和 Wrapper，想自己编译或改功能，见 [开发与兼容](docs/开发与兼容.md)。Release 附件里也保留了 `MS-Tools-1.7.3-Source.zip` 源码包。
+源码现在可以直接在仓库里查看：[MS 假人工具](ms-tools/src)、[独立刷交易筛选](trade-target/src)、[四个 Scarpet 脚本](scripts)、[Windows 安装器](installer)。根目录带 Gradle 构建文件和 Wrapper，想自己编译或改功能，见 [开发与兼容](docs/开发与兼容.md)。Release 附件里也保留了 `MS-Tools-1.7.4-Source.zip` 源码包。
 
 遇到问题可以开 [Issue](https://github.com/MIHUKUAKU/ms-tools/issues)，带上游戏版本、相关模组版本、执行的指令和报错片段就行，不需要上传整个存档。日志里若有账号信息，先删掉。
 
