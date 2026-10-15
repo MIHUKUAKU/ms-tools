@@ -10,7 +10,9 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
         include:
           - mc: '26.2'
@@ -29,6 +31,9 @@ jobs:
         with:
           distribution: temurin
           java-version: '25'
-      - run: chmod +x gradlew
+      - name: Prepare Gradle wrapper
+        run: |
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
       - name: Compile both mods and run filter assertions
         run: ./gradlew build -Pminecraft_version=${{ matrix.mc }} -Ploader_version=${{ matrix.loader }} -Pfabric_api_version=${{ matrix.api }} -Ptrade_cycling_version=${{ matrix.cycling }} -Pvisible_traders_version=${{ matrix.traders }} --console=plain
