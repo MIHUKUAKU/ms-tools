@@ -12,14 +12,14 @@ MS and Trade Target are independent. Install only the part you need, or both. Ex
 | --- | --- |
 | MS bot commands | `mstrade-1.7.3.jar`, version-matched [Carpet](https://modrinth.com/mod/carpet), and `ms.sc`, `fetch.sc`, `put.sc`, `throw.sc` |
 | Trade Target only | `trade-target-331-1.4.2.jar`, version-matched [Fabric API](https://modrinth.com/mod/fabric-api), [Trade Cycling](https://modrinth.com/mod/trade-cycling) ≥ 1.0.21 and [Visible Traders](https://modrinth.com/mod/visible-traders) ≥ 2.5.0 |
-| Windows/PCL installer | `MS-Tools-1.7.4-Windows-Setup.zip`; contains both parts and the scripts, with a choice of installation mode |
+| Windows/PCL installer | `MS-Tools-1.7.5-Windows-Setup.zip`; contains both parts and the scripts, with a choice of installation mode |
 
 The scripts are also available in the repository's [scripts directory](../scripts). A source ZIP is a development project, not a ready-to-install mod.
 
 ## Windows/PCL installer
 
 1. Install and launch a supported Fabric instance once in PCL, then exit the game. Install Java and Fabric Loader through your launcher first.
-2. Download and fully extract `MS-Tools-1.7.4-Windows-Setup.zip`. Run root-level `开始安装.cmd` for the bot tools, or `安装含交易筛选.cmd` for both parts.
+2. Download and fully extract `MS-Tools-1.7.5-Windows-Setup.zip`. Run root-level `开始安装.cmd` for the bot tools, or `安装含交易筛选.cmd` for both parts.
 3. Choose the save folder containing `level.dat`. The installer detects its Fabric instance and displays a plan. Shared, non-isolated instances require selecting the Fabric version JSON as well.
 4. Confirm the game is closed and install. Restart that instance and enter the selected save; use `/ms`.
 
