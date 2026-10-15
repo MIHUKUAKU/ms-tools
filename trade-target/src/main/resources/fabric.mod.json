@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "trade_target_331",
+  "version": "1.4.2",
+  "name": "Trade Target - Configurable",
+  "description": "Singleplayer trade reroll filter with 331, enchanted-book and tipped-arrow presets, separate potion-effect matching, prices and positions.",
+  "environment": "client",
+  "entrypoints": { "client": ["local.tradetarget.TradeTargetClient"] },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": ["26.2.x", "26.3.x"],
+    "java": ">=25",
+    "fabric-api": "*",
+    "trade_cycling": ">=1.0.21",
+    "visibletraders": ">=2.5.0"
+  }
+}

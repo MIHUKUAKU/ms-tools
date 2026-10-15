@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "mstrade",
+  "version": "${version}",
+  "name": "MS Trade",
+  "description": "Villager trading helper for Carpet fake players.",
+  "authors": ["myworld"],
+  "license": "MIT",
+  "environment": "*",
+  "mixins": ["mstrade.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": ["26.2.x", "26.3.x"],
+    "java": ">=25",
+    "carpet": "*"
+  }
+}

@@ -1,0 +1,16 @@
+version = '1.4.2'
+base { archivesName = 'trade-target-331' }
+dependencies {
+    implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    implementation "maven.modrinth:trade-cycling:${rootProject.trade_cycling_version}"
+    implementation "maven.modrinth:visible-traders:${rootProject.visible_traders_version}"
+}
+tasks.register('logicTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'TargetRuleTest'
+    args layout.buildDirectory.get().asFile.absolutePath
+}
+check.dependsOn logicTest
+// Tests are a standalone assertion program, not a JUnit suite.
+tasks.named('test') { enabled = false }
