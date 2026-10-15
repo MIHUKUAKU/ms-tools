@@ -4,7 +4,10 @@ Usage: python tools/test_installer_integration.py /path/to/pwsh
 Requires dependencies cached by fetch_installer_dependencies.py.
 """
 import hashlib
+import base64
 import json
+import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -14,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PWSH = sys.argv[1]
+PACKAGE_ROOT = Path(sys.argv[sys.argv.index('--package') + 1]).resolve() if '--package' in sys.argv else None
 checks = []
 
 def run(package, world, mode='MS', success=True, dry=False, enable_only=False):
@@ -23,7 +27,15 @@ def run(package, world, mode='MS', success=True, dry=False, enable_only=False):
         args.append('-DryRun')
     if enable_only:
         args.append('-EnableOnly')
-    result = subprocess.run(args, text=True, capture_output=True, timeout=180)
+    if os.name == 'nt':
+        # Windows PowerShell 5.1 uses the system code page by default. Explicitly
+        # emit UTF-8 so assertions also work for Chinese save names and messages.
+        quote = lambda value: "'" + str(value).replace("'", "''") + "'"
+        command = '[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false); & ' + ' '.join(
+            value if value.startswith('-') else quote(value) for value in args[3:])
+        args = [PWSH, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-EncodedCommand',
+                base64.b64encode(command.encode('utf-16le')).decode('ascii')]
+    result = subprocess.run(args, text=True, encoding='utf-8', errors='replace', capture_output=True, timeout=180)
     if (result.returncode == 0) != success:
         raise AssertionError(result.stdout + result.stderr)
     return result.stdout + result.stderr
@@ -52,8 +64,9 @@ def snapshot(folder):
 with tempfile.TemporaryDirectory(prefix='ms-install-qa-') as temporary:
     base = Path(temporary)
     package = base/'package'
-    shutil.copytree(ROOT/'installer', package/'installer')
-    shutil.copytree(ROOT/'payload', package/'payload')
+    source = PACKAGE_ROOT or ROOT
+    shutil.copytree(source/'installer', package/'installer')
+    shutil.copytree(source/'payload', package/'payload')
     manifest = json.loads((package/'installer/dependencies.json').read_text())
     for game in ['26.2','26.3']:
         instance, world = fixture(base, game)
@@ -62,7 +75,7 @@ with tempfile.TemporaryDirectory(prefix='ms-install-qa-') as temporary:
         assert snapshot(instance) == before
         checks.append(game + ': DryRun left fixture unchanged')
         run(package, world)
-        assert (world/'scripts/ms.sc').read_bytes() == (ROOT/'scripts/ms.sc').read_bytes()
+        assert (world/'scripts/ms.sc').read_bytes() == (package/'payload/scripts/ms.sc').read_bytes()
         assert 'commandPlayer true' in (world/'carpet.conf').read_text()
         assert 'scriptsAutoload true' in (world/'carpet.conf').read_text()
         assert 'otherRule keep' in (world/'carpet.conf').read_text()
@@ -153,4 +166,4 @@ with tempfile.TemporaryDirectory(prefix='ms-install-qa-') as temporary:
             checks.append(game + ': Both mode verified official Trade Cycling download; second run reused all four dependencies without download')
 
 print(json.dumps({'result':'PASS', 'checks':checks,
-                  'environment':'PowerShell 7 on macOS; disposable fixtures; Windows GUI not exercised'}, ensure_ascii=False, indent=2))
+                  'environment':platform.platform() + '; ' + PWSH + '; disposable fixtures; explicit save paths'}, ensure_ascii=False, indent=2))
