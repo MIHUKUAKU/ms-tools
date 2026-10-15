@@ -3,6 +3,7 @@
     [string]$WorldPath,
     [string]$ProfilePath,
     [switch]$ChooseWorld,
+    [switch]$EnableOnly,
     [string]$WorldName,
     [ValidateSet('MS','Trade','Both')][string]$Mode,
     [switch]$DryRun,
@@ -132,6 +133,7 @@ try {
     }
     $wantMs = $Mode -eq 'MS' -or $Mode -eq 'Both'
     $wantTrade = $Mode -eq 'Trade' -or $Mode -eq 'Both'
+    if ($EnableOnly -and $Mode -ne 'MS') { Fail '启用已有存档入口仅用于MS假人工具。' }
     $modsPath = Join-Path $instance 'mods'
     Assert-PlainDirectory $modsPath
     $world = $null
@@ -161,9 +163,11 @@ try {
     $requiredIds = @()
     $payload = @()
     if ($wantMs) {
-        $localJar = Resolve-Payload (Join-Path $packageRoot 'payload/mods') 'mstrade'
-        Assert-PayloadVersion $localJar $gameVersion
-        $payload += $localJar
+        if (-not $EnableOnly) {
+            $localJar = Resolve-Payload (Join-Path $packageRoot 'payload/mods') 'mstrade'
+            Assert-PayloadVersion $localJar $gameVersion
+            $payload += $localJar
+        }
         foreach ($name in @('ms.sc','fetch.sc','put.sc','throw.sc')) {
             $path = Join-Path (Join-Path $packageRoot 'payload/scripts') $name
             if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { Fail "发布包不完整，缺少：$path" }
@@ -186,6 +190,14 @@ try {
             if ($null -ne $info) { $existing += [pscustomobject]@{ Path=$jar.FullName; Info=$info } }
         }
     }
+    if ($EnableOnly) {
+        $app = @($existing | Where-Object { $_.Info.id -eq 'mstrade' })
+        $appRequirement = [pscustomobject]@{ id='mstrade'; minimum='1.7.3' }
+        if ($app.Count -ne 1 -or -not (Test-ExistingDependency $app[0].Info $appRequirement $gameVersion $profile.Loader)) {
+            Fail '此实例尚未装好支持当前游戏版本的MS工具，请先运行“开始安装.cmd”。'
+        }
+        Write-Host '启用已有存档：保留全部模组，只复制四脚本并开启该存档的假人权限和自动加载。'
+    }
     foreach ($id in $requiredIds) {
         $dependency = @($available | Where-Object { $_.id -eq $id })
         if ($dependency.Count -ne 1) { Fail "安装包缺少$id的准确下载信息。" }
@@ -195,6 +207,7 @@ try {
             Write-Host "已安装，保留：$id $($found[0].Info.version) | $($found[0].Path)"
             if ($found[0].Info.version -ne $dependency.version) { Write-Host '提示：保留用户现有版本；与推荐包不同的组合未经过本包完整游戏验证。' }
         } else {
+            if ($EnableOnly) { Fail '此实例的Carpet缺失、重复或版本不符，请先运行“开始安装.cmd”。' }
             if ($found.Count -gt 0) { Write-Host "需备份替换：$id（版本要求不符或重复安装）" }
             else { Write-Host "缺失，将安装：$id $($dependency.version)" }
             $wanted += $dependency
@@ -241,7 +254,8 @@ try {
     if ($DryRun) { Write-Host 'DryRun：下载、哈希和路径检查完成；没有修改目标实例。'; return }
     if ($ChooseWorld -and -not $Yes) {
         Add-Type -AssemblyName System.Windows.Forms
-        $answer = [System.Windows.Forms.MessageBox]::Show("存档：$WorldName`n游戏：$gameVersion Fabric`n模式：$Mode`n将补齐缺失前置、安装工具并自动启用脚本。旧相关文件先备份。`n`n请确认已退出游戏，开始安装？", '更智能的假人', 'YesNo', 'Question')
+        $action = if ($EnableOnly) { '只复制脚本并开启该存档的假人权限与自动加载，保留全部模组。' } else { '补齐缺失前置、安装工具，开启该存档的假人权限与脚本自动加载。' }
+        $answer = [System.Windows.Forms.MessageBox]::Show("存档：$WorldName`n游戏：$gameVersion Fabric`n模式：$Mode`n$action`n旧相关文件先备份。`n`n请确认已退出游戏，继续？", '更智能的假人', 'YesNo', 'Question')
         if ($answer -ne [System.Windows.Forms.DialogResult]::Yes) { Fail '已取消，目标实例未修改。' }
     } elseif (-not $Yes) {
         $answer = Read-Choice '确认已退出游戏并安装？输入 YES'
