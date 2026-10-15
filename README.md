@@ -21,6 +21,8 @@
 
 前置随包提供或从官方来源获取，保留[原作者入口和许可证](installer/前置来源与许可.txt)。已有相关文件先备份；准确支持范围见[安装说明](docs/安装说明.md)和[测试记录](docs/测试报告.md)，不承诺所有前置组合兼容。
 
+v1.7.5 修复 Windows PowerShell 5.1 下的文件校验中断。Windows 测试机已验证三个实际 CMD 入口和存档权限配置；需先有可正常启动的 Java25／Fabric 游戏实例。
+
 **新版本优先在 GitHub 发布。** 不常用论坛可能延后1天至1周同步，请以[GitHub最新版本](https://github.com/MIHUKUAKU/ms-tools/releases/latest)为准。有安装或使用问题，欢迎留言或[提交Issue](https://github.com/MIHUKUAKU/ms-tools/issues)。
 
 ### 已装模组，只为另一个存档开启权限
@@ -120,7 +122,7 @@
 
 下面三步适用于 **Windows / PCL**。其它启动器或系统请按[手动安装说明](docs/安装说明.md)选择所需模组；macOS 游戏运行尚未实测。
 
-1. 在 [Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest) 下载 `MS-Tools-1.7.4-Windows-Setup.zip`，退出游戏并完整解压。
+1. 在 [Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest) 下载 `MS-Tools-1.7.5-Windows-Setup.zip`，退出游戏并完整解压。
 2. 双击 `开始安装.cmd`，选择存档并确认。**自动检测前置、安装工具、开启假人权限和脚本自动加载；旧文件备份，预设和交易链保留。**
 3. 重进存档，输入 `/ms`。刷交易筛选的入口在村民交易窗口。
 
@@ -161,7 +163,7 @@
 
 ## 源码与反馈
 
-源码现在可以直接在仓库里查看：[MS 假人工具](ms-tools/src)、[独立刷交易筛选](trade-target/src)、[四个 Scarpet 脚本](scripts)、[Windows 安装器](installer)。根目录带 Gradle 构建文件和 Wrapper，想自己编译或改功能，见 [开发与兼容](docs/开发与兼容.md)。Release 附件里也保留了 `MS-Tools-1.7.4-Source.zip` 源码包。
+源码现在可以直接在仓库里查看：[MS 假人工具](ms-tools/src)、[独立刷交易筛选](trade-target/src)、[四个 Scarpet 脚本](scripts)、[Windows 安装器](installer)。根目录带 Gradle 构建文件和 Wrapper，想自己编译或改功能，见 [开发与兼容](docs/开发与兼容.md)。Release 附件里也保留了 `MS-Tools-1.7.5-Source.zip` 源码包。
 
 遇到问题可以开 [Issue](https://github.com/MIHUKUAKU/ms-tools/issues)，带上游戏版本、相关模组版本、执行的指令和报错片段就行，不需要上传整个存档。日志里若有账号信息，先删掉。
 

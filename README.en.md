@@ -16,6 +16,8 @@ I started this because I wanted a short command to operate my mob switch without
 
 [Download the Windows setup ZIP](https://github.com/MIHUKUAKU/ms-tools/releases/latest), extract it, and run `开始安装.cmd`. Select your save folder containing `level.dat`, review the plan, and install. The installer detects an existing Fabric26.2/26.3 instance, reuses suitable installed dependencies, fills in missing files, and enables the Carpet scripts for that save. Use `安装含交易筛选.cmd` to also install the separate, singleplayer-only Trade Target filter. Java25 and a working Fabric installation are required; exit Minecraft before installing. See [installation](docs/installation.en.md) and [third-party sources](installer/前置来源与许可.txt).
 
+v1.7.5 fixes dependency verification stopping under Windows PowerShell 5.1. All three CMD entry points and save-permission setup passed on a Windows Server 2025 test machine using disposable save fixtures; this did not include launching Minecraft.
+
 Updates appear first on [GitHub Releases](https://github.com/MIHUKUAKU/ms-tools/releases/latest). Less frequently used forum threads may follow1–7days later. Questions and bug reports are welcome.
 
 ## Two independent parts
