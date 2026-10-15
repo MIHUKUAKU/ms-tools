@@ -9,7 +9,7 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 dist = root / "dist"
 dist.mkdir(exist_ok=True)
-release_version = '1.7.4'
+release_version = '1.7.5'
 mods = [root / "ms-tools/build/libs/mstrade-1.7.3.jar",
         root / "trade-target/build/libs/trade-target-331-1.4.2.jar"]
 for mod in mods:
