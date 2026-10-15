@@ -1,25 +1,34 @@
 version = '1.4.2'
 base { archivesName = 'trade-target-331' }
-// Use the exact official file: Modrinth's Maven facade has intermittently
-// returned missing artifacts for otherwise downloadable version IDs.
+// Preserve the URL escaping in Modrinth's official download URL. Repository
+// artifact paths can decode '+' or encode '%' twice for this filename.
 def setupDependencies = new groovy.json.JsonSlurper().parse(rootProject.file('installer/dependencies.json'))
 def cyclingFile = setupDependencies.games[rootProject.minecraft_version].find { it.id == 'trade_cycling' }
-repositories {
-    exclusiveContent {
-        forRepository {
-            ivy {
-                name = 'TradeCyclingOfficialFile'
-                url = 'https://cdn.modrinth.com/data/qpPoAL6m/versions'
-                patternLayout { artifact "[revision]/${cyclingFile.name}" }
-                metadataSources { artifact() }
-            }
+if (rootProject.trade_cycling_version.toString() != cyclingFile.versionId) {
+    throw new GradleException('Trade Cycling version must match installer/dependencies.json for this Minecraft version')
+}
+def cyclingJar = providers.provider {
+    def target = rootProject.layout.buildDirectory.file("official-dependencies/${cyclingFile.versionId}.jar").get().asFile
+    def digest = { file -> java.security.MessageDigest.getInstance('SHA-512').digest(file.bytes).encodeHex().toString() }
+    if (!target.isFile() || digest(target) != cyclingFile.sha512) {
+        target.parentFile.mkdirs()
+        def partial = new File(target.parentFile, target.name + '.part')
+        try {
+            def connection = new URI(cyclingFile.url).toURL().openConnection()
+            connection.connectTimeout = 30000
+            connection.readTimeout = 60000
+            connection.inputStream.withCloseable { input -> partial.withOutputStream { output -> output << input } }
+            if (digest(partial) != cyclingFile.sha512) { throw new GradleException('Official Trade Cycling SHA-512 mismatch') }
+            java.nio.file.Files.move(partial.toPath(), target.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        } finally {
+            if (partial.exists()) { partial.delete() }
         }
-        filter { includeModule('official.modrinth', 'trade-cycling') }
     }
+    target
 }
 dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    implementation "official.modrinth:trade-cycling:${rootProject.trade_cycling_version}@jar"
+    implementation files(cyclingJar)
     implementation "maven.modrinth:visible-traders:${rootProject.visible_traders_version}"
 }
 tasks.register('logicTest', JavaExec) {
