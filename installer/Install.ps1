@@ -62,6 +62,14 @@ function Assert-PayloadVersion([string]$jar, [string]$gameVersion) {
     $supported = @($ranges | Where-Object { $_ -eq '*' -or $_ -eq $gameVersion -or $_ -eq "$gameVersion.x" })
     if ($supported.Count -eq 0) { Fail "发布包的 $($info.id) 没有声明支持 Minecraft $gameVersion；拒绝强行安装。" }
 }
+function Get-Sha512([string]$path) {
+    # Use the platform implementation directly: Windows PowerShell 5.1 can fail
+    # to auto-load Get-FileHash even though parsing and normal file I/O work.
+    $algorithm = [System.Security.Cryptography.SHA512]::Create()
+    $stream = [System.IO.File]::OpenRead($path)
+    try { return ([System.BitConverter]::ToString($algorithm.ComputeHash($stream))).Replace('-', '').ToLowerInvariant() }
+    finally { $stream.Dispose(); $algorithm.Dispose() }
+}
 function Stage-Download($item, [string]$stage) {
     $destination = Join-Path $stage $item.Name
     if (Test-Path -LiteralPath $destination) { Fail "下载文件重名：$($item.Name)" }
@@ -73,7 +81,7 @@ function Stage-Download($item, [string]$stage) {
         Write-Host "官方下载 $($item.slug)：$($item.Name) | $($item.projectUrl)"
         Invoke-WebRequest -Uri $item.Url -OutFile $destination -UseBasicParsing -TimeoutSec 120
     }
-    $actualHash = (Get-FileHash -LiteralPath $destination -Algorithm SHA512).Hash.ToLowerInvariant()
+    $actualHash = Get-Sha512 $destination
     if ($actualHash -ne $item.sha512) { Fail "$($item.Name) SHA-512 校验失败，尚未修改游戏文件。" }
     $info = Read-ModInfo $destination
     if ($null -eq $info -or $info.id -ne $item.Id) { Fail "$($item.Name) 的 Fabric 模组 ID 不符，尚未修改游戏文件。" }
