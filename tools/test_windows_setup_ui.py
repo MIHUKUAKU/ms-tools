@@ -55,6 +55,7 @@ def wait_dialog(process, button_name, seconds=150):
 
 def launch(name, accept=True):
     env = os.environ.copy()
+    env.pop('PSModulePath', None)
     # Choose-WorldFolder starts in APPDATA/.minecraft. Place the disposable save
     # there so the native picker can select it without any real player files.
     env['APPDATA'] = str(instance / 'saves')

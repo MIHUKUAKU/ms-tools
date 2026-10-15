@@ -35,7 +35,12 @@ def run(package, world, mode='MS', success=True, dry=False, enable_only=False):
             value if value.startswith('-') else quote(value) for value in args[3:])
         args = [PWSH, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-EncodedCommand',
                 base64.b64encode(command.encode('utf-16le')).decode('ascii')]
-    result = subprocess.run(args, text=True, encoding='utf-8', errors='replace', capture_output=True, timeout=180)
+    child_env = os.environ.copy()
+    if os.name == 'nt':
+        # Match an Explorer launch. A pwsh-hosted Actions step can otherwise
+        # inject its PowerShell 7 module paths into Windows PowerShell 5.1.
+        child_env.pop('PSModulePath', None)
+    result = subprocess.run(args, env=child_env, text=True, encoding='utf-8', errors='replace', capture_output=True, timeout=180)
     if (result.returncode == 0) != success:
         raise AssertionError(result.stdout + result.stderr)
     return result.stdout + result.stderr
